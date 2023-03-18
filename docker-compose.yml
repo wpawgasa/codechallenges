@@ -1,0 +1,20 @@
+version: '3'
+networks:
+  coding-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.168.241.0/24
+          gateway: 172.168.241.1
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./Algorithms:/workspace/Algorithms
+      - ./DataStructures:/workspace/DataStructures
+    entrypoint: sh -c 'jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --notebook-dir=/workspace --allow-root'
+    networks:
+      - coding-network
